@@ -14,9 +14,14 @@ import 'package:firebase_storage/firebase_storage.dart' as storage;
 class MenuImage extends StatefulWidget {
   // const MenuImage({super.key});
   final String eImage;
+  final String eImageName;
   final Function(String imageUrl, String imageName) onFileChanged;
 
-  MenuImage({required this.eImage, required this.onFileChanged});
+  MenuImage({
+    this.eImage = "",
+    this.eImageName = "",
+    required this.onFileChanged,
+  });
 
   @override
   State<MenuImage> createState() => _MenuImageState();
@@ -26,15 +31,27 @@ class _MenuImageState extends State<MenuImage> {
   final ImagePicker _picker = ImagePicker();
 
   String? imageUrl;
-  String? imageFileName;
+  String? imageName;
 
   void readExistingImage() {
-    imageUrl = widget.eImage;
-    print('existing image=' + widget.eImage);
+    print(widget.eImageName);
+
+    setState(() {
+      imageUrl = widget.eImage;
+      imageName = widget.eImageName;
+    });
+
+    // imageName = widget.onFileChanged(1).toString();
+    // print(widget.onFileChanged);
+    // imageName = widget.imageName;
+    // print('existing image=' + widget.eImage);
+    // print('existing image file name=' + imageFileName);
   }
 
   @override
   void initState() {
+    // print('file name=' + widget.onFileChanged().indexOf(1).toString());
+    // print('onFileChanged=' + this.onFileChanged(1).toString());
     // print('existing image=' + widget.eImage);
     if (widget.eImage != "") {
       readExistingImage();
@@ -181,7 +198,7 @@ class _MenuImageState extends State<MenuImage> {
     return result!;
   }
 
-  Future _uploadFile(String path, String imageName) async {
+  Future _uploadFile(String path, String _imageName) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -193,17 +210,18 @@ class _MenuImageState extends State<MenuImage> {
     // print(path);
 
     final ref =
-        storage.FirebaseStorage.instance.ref().child('menu').child(imageName);
+        storage.FirebaseStorage.instance.ref().child('menu').child(_imageName);
 
     final result = await ref.putFile(File(path));
     final fileUrl = await result.ref.getDownloadURL();
 
     setState(() {
       imageUrl = fileUrl;
-      imageFileName = imageName;
+      imageName = _imageName;
+      // imageFileName = imageName;
     });
 
-    widget.onFileChanged(fileUrl, imageName);
+    widget.onFileChanged(fileUrl, _imageName);
 
     Navigator.of(context).pop();
   }

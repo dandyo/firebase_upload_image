@@ -65,12 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
             final menus = snapshot.data!;
 
             return ListView(
-              itemExtent: 80.0,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              itemExtent: 90.0,
               padding: EdgeInsets.only(
-                top: 8,
-                bottom: 8,
+                top: 16,
+                bottom: 16,
               ),
               children: menus.map(buildMenu).toList(),
             );
@@ -96,13 +94,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget buildMenu(Menu menu) => ListTile(
         title: Text(menu.name),
-        visualDensity: VisualDensity(vertical: 3),
+        visualDensity: VisualDensity(vertical: 4),
         leading: menu.image != ""
             ? _sizedContainer(CachedNetworkImage(
                 imageUrl: menu.image,
-                placeholder: (context, url) => const CircleAvatar(
-                  backgroundColor: Colors.amber,
-                  radius: 150,
+                placeholder: (context, url) => Container(
+                  color: Colors.grey,
                 ),
                 imageBuilder: (context, image) => Container(
                   decoration: BoxDecoration(
@@ -112,7 +109,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+                errorWidget: (context, url, error) => Container(
+                  color: Colors.grey,
+                ),
               ))
             : CircleAvatar(
                 child: Text('I'),

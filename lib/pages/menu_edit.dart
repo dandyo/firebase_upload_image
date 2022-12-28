@@ -68,6 +68,7 @@ class _MenuEditPageState extends State<MenuEditPage> {
 
   Widget buildMenu(Menu menu) {
     imageEditUrl = menu.image;
+    imageName = menu.imageFileName;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -75,6 +76,7 @@ class _MenuEditPageState extends State<MenuEditPage> {
         children: [
           MenuImage(
             eImage: imageEditUrl,
+            eImageName: imageName,
             onFileChanged: ((imageUrl, imageName) {
               setState(() {
                 this.imageUrl = imageUrl;
