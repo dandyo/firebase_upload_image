@@ -34,7 +34,7 @@ class _MenuImageState extends State<MenuImage> {
   String? imageName;
 
   void readExistingImage() {
-    print(widget.eImageName);
+    print('imagename=' + widget.eImageName);
 
     setState(() {
       imageUrl = widget.eImage;

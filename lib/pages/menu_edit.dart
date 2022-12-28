@@ -108,10 +108,15 @@ class _MenuEditPageState extends State<MenuEditPage> {
           ),
           SizedBox(height: 24),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               final docUser =
                   FirebaseFirestore.instance.collection('menus').doc(widget.id);
               docUser.delete();
+
+              final storageRef = FirebaseStorage.instance.ref();
+
+              final desertRef = storageRef.child("menu/${menu.imageFileName}");
+              await desertRef.delete();
 
               Navigator.pop(context);
             },
